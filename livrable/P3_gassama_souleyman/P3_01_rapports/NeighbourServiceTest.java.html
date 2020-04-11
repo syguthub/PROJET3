@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>NeighbourServiceTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ed864a;}
+.s1 { color: #ebebeb;}
+.s2 { color: #ed864a; font-weight: bold;}
+.s3 { color: #499936; font-style: italic;}
+.s4 { color: #33ccff; font-weight: bold;}
+.s5 { color: #54b33e;}
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+NeighbourServiceTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.openclassrooms.entrevoisins.service</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com.bumptech.glide.Glide</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com.bumptech.glide.request.RequestOptions</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com.openclassrooms.entrevoisins.di.DI</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com.openclassrooms.entrevoisins.model.Neighbour</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">org.hamcrest.collection.IsIterableContainingInAnyOrder</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org.junit.Before</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org.junit.Test</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org.junit.runner.RunWith</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org.junit.runners.JUnit4</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.List</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java.util.Random</span><span class="s2">;</span>
+
+<span class="s0">import static </span><span class="s1">org.junit.Assert.assertFalse</span><span class="s2">;</span>
+<span class="s0">import static </span><span class="s1">org.junit.Assert.assertThat</span><span class="s2">;</span>
+<span class="s0">import static </span><span class="s1">org.junit.Assert.assertTrue</span><span class="s2">;</span>
+
+<span class="s3">/**</span>
+ * Unit test on Neighbour service
+ */
+<span class="s1">@RunWith(JUnit4.</span><span class="s0">class</span><span class="s1">)</span>
+<span class="s0">public class </span><span class="s1">NeighbourServiceTest {</span>
+
+    <span class="s0">private </span><span class="s1">NeighbourApiService service</span><span class="s2">;</span>
+
+    <span class="s1">@Before</span>
+    <span class="s0">public void </span><span class="s1">setup() {</span>
+        service = DI.getNewInstanceApiService()<span class="s2">;</span>
+    <span class="s1">}</span>
+
+    @Test
+    <span class="s0">public void </span><span class="s1">getNeighboursWithSuccess() {</span>
+        List&lt;Neighbour&gt; neighbours = service.getNeighbours()<span class="s2">;</span>
+        <span class="s1">List&lt;Neighbour&gt; expectedNeighbours = DummyNeighbourGenerator.DUMMY_NEIGHBOURS</span><span class="s2">;</span>
+        <span class="s1">assertThat(neighbours</span><span class="s2">, </span><span class="s1">IsIterableContainingInAnyOrder.containsInAnyOrder(expectedNeighbours.toArray()))</span><span class="s2">;</span>
+    <span class="s1">}</span>
+
+    @Test
+    <span class="s0">public void </span><span class="s1">deleteNeighbourWithSuccess() {</span>
+        Neighbour neighbourToDelete = service.getNeighbours().get(<span class="s4">0</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">service.deleteNeighbour(neighbourToDelete)</span><span class="s2">;</span>
+        <span class="s1">assertFalse(service.getNeighbours().contains(neighbourToDelete))</span><span class="s2">;</span>
+    <span class="s1">}</span>
+
+    @Test
+    <span class="s0">public void </span><span class="s1">ajoutDeNeighbour (){</span>
+
+        Neighbour neighbour = <span class="s0">new </span><span class="s1">Neighbour(</span>
+                System.currentTimeMillis()<span class="s2">,</span>
+                <span class="s5">&quot;non&quot;</span><span class="s2">,</span>
+                <span class="s5">&quot;https://i.pravatar.cc/150?u=a042581f4e29026704d&quot;</span><span class="s2">,</span>
+                <span class="s5">&quot;adresse&quot;</span><span class="s2">,</span>
+                <span class="s5">&quot;523456789003&quot;</span><span class="s2">,</span>
+                <span class="s5">&quot;ABOUTmE&quot;</span><span class="s2">,</span>
+                <span class="s0">false</span>
+        <span class="s1">)</span><span class="s2">;</span>
+
+        <span class="s1">service.createNeighbour(neighbour)</span><span class="s2">;</span>
+
+        <span class="s1">assertTrue(service.getNeighbours().contains(neighbour))</span><span class="s2">;</span>
+    <span class="s1">}</span>
+
+    @Test
+    <span class="s0">public void </span><span class="s1">ajoutFavoris (){</span>
+
+        Neighbour neighbour =neighbourAleatoir()<span class="s2">;</span>
+
+        <span class="s1">service.creatFavoris(neighbour)</span><span class="s2">;</span>
+
+        <span class="s1">assertTrue(service.getFavoris().contains(neighbour))</span><span class="s2">;</span>
+    <span class="s1">}</span>
+
+    @Test
+    <span class="s0">public void </span><span class="s1">retraitFavoris (){</span>
+
+        Neighbour neighbour = neighbourAleatoir()<span class="s2">;</span>
+
+        <span class="s1">service.creatFavoris(neighbour)</span><span class="s2">;</span>
+
+        <span class="s1">Neighbour neighbourFavoris = service.getFavoris().get(</span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span>
+
+        <span class="s1">service.suprimerFavoris(neighbourFavoris)</span><span class="s2">;</span>
+
+        <span class="s1">assertFalse(service.getFavoris().contains(neighbourFavoris))</span><span class="s2">;</span>
+    <span class="s1">}</span>
+
+    Neighbour neighbourAleatoir(){
+        List&lt;Neighbour&gt; neighbours=DI.getNeighbourApiService().getNeighbours()<span class="s2">;</span>
+
+        <span class="s1">Random random=</span><span class="s0">new </span><span class="s1">Random()</span><span class="s2">;</span>
+
+        <span class="s0">int </span><span class="s1">nbrF= random.nextInt(neighbours.size())</span><span class="s2">;</span>
+
+        <span class="s0">return </span><span class="s1">neighbours.get(nbrF)</span><span class="s2">;</span>
+    <span class="s1">}</span>
+
+}
+</pre>
+</body>
+</html>

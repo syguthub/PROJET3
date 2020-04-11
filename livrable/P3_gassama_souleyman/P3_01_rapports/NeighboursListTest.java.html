@@ -1,0 +1,205 @@
+<html>
+<head>
+<title>NeighboursListTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ebebeb;}
+.s1 { color: #ed864a;}
+.s2 { color: #ed864a; font-weight: bold;}
+.s3 { color: #499936; font-style: italic;}
+.s4 { color: #7ec3e6;}
+.s5 { color: #33ccff; font-weight: bold;}
+.s6 { color: #54b33e;}
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+NeighboursListTest.java</font>
+</center></td></tr></table>
+<pre>
+<span class="s1">package </span><span class="s0">com.openclassrooms.entrevoisins.neighbour_list</span><span class="s2">;</span>
+
+<span class="s1">import </span><span class="s0">android.support.test.espresso.contrib.RecyclerViewActions</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">android.support.test.espresso.matcher.ViewMatchers</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">android.support.test.rule.ActivityTestRule</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">android.support.test.runner.AndroidJUnit4</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">android.view.View</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">android.view.ViewGroup</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">android.view.ViewParent</span><span class="s2">;</span>
+
+<span class="s1">import </span><span class="s0">com.openclassrooms.entrevoisins.R</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">com.openclassrooms.entrevoisins.di.DI</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">com.openclassrooms.entrevoisins.model.Neighbour</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">com.openclassrooms.entrevoisins.utils.DeleteViewAction</span><span class="s2">;</span>
+
+<span class="s1">import </span><span class="s0">org.hamcrest.Description</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">org.hamcrest.Matcher</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">org.hamcrest.TypeSafeMatcher</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">org.junit.Before</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">org.junit.Rule</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">org.junit.Test</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">org.junit.runner.RunWith</span><span class="s2">;</span>
+
+<span class="s1">import </span><span class="s0">java.util.List</span><span class="s2">;</span>
+<span class="s1">import </span><span class="s0">java.util.Random</span><span class="s2">;</span>
+
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.Espresso.onView</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.Espresso.pressBack</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.action.ViewActions.click</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.assertion.ViewAssertions.matches</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.matcher.ViewMatchers.assertThat</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.matcher.ViewMatchers.isDisplayed</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.matcher.ViewMatchers.withContentDescription</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.matcher.ViewMatchers.withId</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">android.support.test.espresso.matcher.ViewMatchers.withText</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">org.hamcrest.core.AllOf.allOf</span><span class="s2">;</span>
+<span class="s1">import static </span><span class="s0">org.hamcrest.core.IsNull.notNullValue</span><span class="s2">;</span>
+
+
+
+<span class="s3">/**</span>
+ * Test class for list of neighbours
+ */
+<span class="s0">@RunWith(AndroidJUnit4.</span><span class="s1">class</span><span class="s0">)</span>
+<span class="s1">public class </span><span class="s0">NeighboursListTest {</span>
+
+    <span class="s4">// This is fixed</span>
+    <span class="s1">private static int </span><span class="s0">ITEMS_COUNT = </span><span class="s5">12</span><span class="s2">;</span>
+
+    <span class="s1">private </span><span class="s0">ListNeighbourActivity mActivity</span><span class="s2">;</span>
+
+    <span class="s0">@Rule</span>
+    <span class="s1">public </span><span class="s0">ActivityTestRule&lt;ListNeighbourActivity&gt; mActivityRule =</span>
+            <span class="s1">new </span><span class="s0">ActivityTestRule(ListNeighbourActivity.</span><span class="s1">class</span><span class="s0">)</span><span class="s2">;</span>
+
+    <span class="s0">@Before</span>
+    <span class="s1">public void </span><span class="s0">setUp() {</span>
+        mActivity = mActivityRule.getActivity()<span class="s2">;</span>
+        <span class="s0">assertThat(mActivity</span><span class="s2">, </span><span class="s0">notNullValue())</span><span class="s2">;</span>
+    <span class="s0">}</span>
+
+    <span class="s3">/**</span>
+     * We ensure that our recyclerview is displaying at least on item
+     */
+    <span class="s0">@Test</span>
+    <span class="s1">public void </span><span class="s0">myNeighboursList_shouldNotBeEmpty() {</span>
+        <span class="s4">// First scroll to the position that needs to be matched and click on it.</span>
+        <span class="s0">onView(allOf(withId(R.id.list_neighbours)</span><span class="s2">,</span><span class="s0">childAtPosition(withId(R.id.container)</span><span class="s2">,</span><span class="s5">0</span><span class="s0">)))</span>
+                .check(matches(hasMinimumChildCount(<span class="s5">1</span><span class="s0">)))</span><span class="s2">;</span>
+    <span class="s0">}</span>
+
+    <span class="s3">/**</span>
+     * When we delete an item, the item is no more shown
+     */
+    <span class="s0">@Test</span>
+    <span class="s1">public void </span><span class="s0">myNeighboursList_deleteAction_shouldRemoveItem() {</span>
+        <span class="s4">// Given : We remove the element at position 2</span>
+        <span class="s0">onView(allOf(withId(R.id.list_neighbours)</span><span class="s2">,</span><span class="s0">childAtPosition(withId(R.id.container)</span><span class="s2">,</span><span class="s5">0</span><span class="s0">))).check(withItemCount(ITEMS_COUNT))</span><span class="s2">;</span>
+        <span class="s4">// When perform a click on a delete icon</span>
+       <span class="s0">onView(allOf(withId(R.id.list_neighbours)</span><span class="s2">,</span><span class="s0">childAtPosition(withId(R.id.container)</span><span class="s2">,</span><span class="s5">0</span><span class="s0">)))</span>
+                .perform(RecyclerViewActions.actionOnItemAtPosition(<span class="s5">1</span><span class="s2">, </span><span class="s1">new </span><span class="s0">DeleteViewAction()))</span><span class="s2">;</span>
+<span class="s4">//        // Then : the number of element is 11</span>
+        <span class="s0">onView(allOf(withId(R.id.list_neighbours)</span><span class="s2">,</span><span class="s0">childAtPosition(withId(R.id.container)</span><span class="s2">,</span><span class="s5">0</span><span class="s0">))).check(withItemCount(ITEMS_COUNT-</span><span class="s5">1</span><span class="s0">))</span><span class="s2">;</span>
+    <span class="s0">}</span>
+
+
+    @Test
+    <span class="s1">public void </span><span class="s0">listNeighbourActivityTest() {</span>
+
+        onView(allOf(withId(R.id.list_neighbours)<span class="s2">,</span><span class="s0">childAtPosition(withId(R.id.container)</span><span class="s2">,</span><span class="s5">0</span><span class="s0">)))</span>
+                .perform(RecyclerViewActions.actionOnItemAtPosition(<span class="s5">11</span><span class="s2">,</span><span class="s0">click()))</span><span class="s2">;</span>
+
+        <span class="s0">onView(withId(R.id.detail_voisin)).check(matches(isDisplayed()))</span><span class="s2">;</span>
+
+<span class="s4">//</span>
+    <span class="s0">}</span>
+    @Test
+    <span class="s1">public void </span><span class="s0">verifierLesNonDuProfilSecection(){</span>
+        <span class="s1">int </span><span class="s0">position =</span><span class="s5">9</span><span class="s2">;</span>
+
+        <span class="s0">onView(allOf(withId(R.id.list_neighbours)</span><span class="s2">,</span><span class="s0">childAtPosition(withId(R.id.container)</span><span class="s2">,</span><span class="s5">0</span><span class="s0">)))</span>
+                .perform(RecyclerViewActions.actionOnItemAtPosition(position<span class="s2">,</span><span class="s0">click()))</span><span class="s2">;</span>
+
+        <span class="s0">onView(withId(R.id.detail_voisin)).check(matches(isDisplayed()))</span><span class="s2">;</span>
+
+        <span class="s0">Neighbour neighbour= DI.getNeighbourApiService().getNeighbours().get(position)</span><span class="s2">;</span>
+        <span class="s0">String nomNeighbour= neighbour.getName()</span><span class="s2">;</span>
+
+        <span class="s0">onView(withId(R.id.nomProfil)).check(matches(withText(nomNeighbour)))</span><span class="s2">;</span>
+        <span class="s0">pressBack()</span><span class="s2">;</span>
+    <span class="s0">}</span>
+
+    @Test
+    <span class="s1">public void </span><span class="s0">dansFavorisQueDesFavoris(){</span>
+        <span class="s1">int </span><span class="s0">positionOngletFavoris =</span><span class="s5">1</span><span class="s2">;</span>
+
+        <span class="s1">int </span><span class="s0">nbrF = chargeFavoiris()</span><span class="s2">;</span>
+<span class="s4">// changer d'onglé de neighbour à favoris</span>
+        <span class="s0">onView( allOf(withContentDescription(</span><span class="s6">&quot;Favorites&quot;</span><span class="s0">)</span><span class="s2">, </span><span class="s0">childAtPosition(childAtPosition(withId(R.id.tabs)</span><span class="s2">, </span><span class="s5">0</span><span class="s0">)</span><span class="s2">, </span><span class="s0">positionOngletFavoris)))</span>
+
+                .perform(click())<span class="s2">;</span>
+
+<span class="s4">//verifier si dans longlé favoris il y a bien que des favoris</span>
+        <span class="s1">for </span><span class="s0">(</span><span class="s1">int </span><span class="s0">j= </span><span class="s5">0</span><span class="s2">; </span><span class="s0">j&lt;nbrF</span><span class="s2">; </span><span class="s0">j++) {</span>
+
+
+            onView(allOf(withId(R.id.list_neighbours)<span class="s2">,</span><span class="s0">childAtPosition(withId (R.id.container)</span><span class="s2">,</span><span class="s0">positionOngletFavoris)))</span>
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(j<span class="s2">,</span><span class="s0">click()))</span><span class="s2">;</span>
+
+            <span class="s0">onView(withId(R.id.detail_voisin)).check(matches(isDisplayed()))</span><span class="s2">;</span>
+
+            <span class="s0">onView(withId(R.id.boutonFavoris)).check(matches(withContentDescription(</span><span class="s6">&quot;favoris&quot;</span><span class="s0">)))</span><span class="s2">;</span>
+            <span class="s0">pressBack()</span><span class="s2">;</span>
+        <span class="s0">}</span>
+<span class="s4">//</span>
+//
+
+    <span class="s0">}</span>
+
+    <span class="s1">public int </span><span class="s0">chargeFavoiris(){</span>
+        List&lt;Neighbour&gt; neighbours=DI.getNeighbourApiService().getNeighbours()<span class="s2">;</span>
+
+        <span class="s0">Random random=</span><span class="s1">new </span><span class="s0">Random()</span><span class="s2">;</span>
+
+        <span class="s1">int </span><span class="s0">nbrF= random.nextInt(neighbours.size())</span><span class="s2">;</span>
+
+        <span class="s1">for</span><span class="s0">(</span><span class="s1">int </span><span class="s0">i = </span><span class="s5">0</span><span class="s2">; </span><span class="s0">i&lt;nbrF</span><span class="s2">; </span><span class="s0">i++){</span>
+
+            onView(allOf(withId(R.id.list_neighbours)<span class="s2">,</span><span class="s0">childAtPosition(withId(R.id.container)</span><span class="s2">,</span><span class="s5">0</span><span class="s0">)))</span>
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(i<span class="s2">,</span><span class="s0">click()))</span><span class="s2">;</span>
+
+            <span class="s0">onView(withId(R.id.detail_voisin)).check(matches(isDisplayed()))</span><span class="s2">;</span>
+
+            <span class="s0">onView(withId(R.id.boutonFavoris)).perform(click())</span><span class="s2">;</span>
+
+            <span class="s0">pressBack()</span><span class="s2">;</span>
+        <span class="s0">}</span>
+        <span class="s1">return </span><span class="s0">nbrF</span><span class="s2">;</span>
+    <span class="s0">}</span>
+    <span class="s1">public static </span><span class="s0">Matcher&lt;View&gt; childAtPosition(</span>
+            <span class="s1">final </span><span class="s0">Matcher&lt;View&gt; parentMatcher</span><span class="s2">, </span><span class="s1">final int </span><span class="s0">position) {</span>
+
+        <span class="s1">return new </span><span class="s0">TypeSafeMatcher&lt;View&gt;() {</span>
+            @Override
+            <span class="s1">public void </span><span class="s0">describeTo(Description description) {</span>
+                description.appendText(<span class="s6">&quot;Child at position &quot; </span><span class="s0">+ position + </span><span class="s6">&quot; in parent &quot;</span><span class="s0">)</span><span class="s2">;</span>
+                <span class="s0">parentMatcher.describeTo(description)</span><span class="s2">;</span>
+            <span class="s0">}</span>
+
+            @Override
+            <span class="s1">public boolean </span><span class="s0">matchesSafely(View view) {</span>
+                ViewParent parent = view.getParent()<span class="s2">;</span>
+                <span class="s1">return </span><span class="s0">parent </span><span class="s1">instanceof </span><span class="s0">ViewGroup &amp;&amp; parentMatcher.matches(parent)</span>
+                        &amp;&amp; view.equals(((ViewGroup) parent).getChildAt(position))<span class="s2">;</span>
+            <span class="s0">}</span>
+        }<span class="s2">;</span>
+    <span class="s0">}</span>
+
+}</pre>
+</body>
+</html>
