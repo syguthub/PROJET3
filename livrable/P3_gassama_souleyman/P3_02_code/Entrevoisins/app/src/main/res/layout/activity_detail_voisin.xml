@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.neighbour_list.DetailVoisin"
+    android:orientation="vertical"
+    android:background="#ECECEC"
+    android:weightSum="100"
+    android:id="@+id/detail_voisin"
+
+    >
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/boutonFavoris"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#EBEAEA"
+        app:backgroundTint="#EBEAEA"
+        app:rippleColor="#FBC02D"
+        android:scrollbarDefaultDelayBeforeFade="@android:integer/config_longAnimTime"
+        app:layout_anchor="@id/imagePofil"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginEnd="11.5dp"
+        android:src="@drawable/ic_star_border_white_24dp"
+        android:elevation="9dp"
+        app:fabSize="auto"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        >
+
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="326dp"
+            android:theme="@style/AppTheme.AppBarOverlay"
+        >
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:expandedTitleMarginStart="15dp"
+            >
+                    <ImageView
+                        android:id="@+id/imagePofil"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="#fff"
+                        android:gravity="center"
+                        android:background="@color/colorAccent"
+                        android:contentDescription="@string/descriptif">
+                    </ImageView>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    >
+                </android.support.v7.widget.Toolbar>
+
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cartview"
+            android:elevation="43dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginLeft="14dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="5dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#fff"
+                >
+
+                <TextView
+                    android:id="@+id/nomProfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/non"
+                    android:layout_gravity="center"
+                    android:textSize="25sp"
+                    android:layout_marginStart="15dp"
+                    android:textColor="#000"
+                    android:gravity="bottom"
+                    android:paddingBottom="3dp"
+                    />
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F3F3F3"
+                    >
+                </View>
+
+                <RelativeLayout
+                    android:id="@+id/relative1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+
+                    <ImageView
+                        android:id="@+id/imageAdresse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/marker_24px"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="15dp"/>
+
+                    <TextView
+                        android:id="@+id/adresseProfil"
+                        android:layout_toEndOf="@+id/imageAdresse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="11dp"
+                        android:text="@string/lieu"
+                        android:textSize="15sp"
+                        android:gravity="center_vertical"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relative2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imagetelephone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/phone_24px"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="15dp"
+                        />
+
+                    <TextView
+
+                        android:id="@+id/telephoneProfil"
+                        android:layout_toEndOf="@+id/imagetelephone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:text="@string/telephone"
+                        android:textSize="15sp"
+                        android:gravity="center_vertical"
+                        />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relative3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imageGlobe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/globe_24px"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="15dp"/>
+
+                    <TextView
+                        android:id="@+id/webProfil"
+                        android:layout_toEndOf="@+id/imageGlobe"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginStart="11dp"
+                        android:text="@string/Facebook"
+                        android:textSize="15sp"
+                        android:gravity="center_vertical"
+
+                        />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cartview2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="14dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="2dp"
+            android:background="#ECECEC"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/aProposTitre"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="15dp"
+                    android:shadowDy="@android:integer/config_longAnimTime"
+                    android:text="@string/A_propos_de_moi"
+                    android:textColor="#000"
+                    android:textSize="25sp"
+                    android:gravity="bottom"
+                    android:elevation="3dp"
+                    android:paddingBottom="3dp"
+                    />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/aProposTitre"
+                        android:background="#F3F3F3"
+                        >
+                    </View>
+
+                <TextView
+                    android:id="@+id/aPropos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view"
+                    android:paddingTop="25dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/descriptif"
+                    android:gravity="bottom"
+                    android:textSize="15sp"
+                    />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
